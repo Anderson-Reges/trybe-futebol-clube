@@ -4,42 +4,35 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
 
 import { Response } from 'superagent';
+import TeamService from '../services/TeamsService';
+import { teamsList } from './mocks/teams.mock';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('testa a rota "/teams"', () => {
 
-  // let chaiHttpResponse: Response;
+  let chaiHttpResponse: Response;
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+  beforeEach(async () => {
+    sinon
+      .stub(new TeamService, 'findAll')
+      .resolves(teamsList);
+  });
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+  afterEach(()=>{
+    sinon.restore();
+  })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+  it('Testa a listagem de todos os times', async () => {
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/teams');
 
-  //   expect(...)
-  // });
-
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+    expect(chaiHttpResponse).to.have.property('status')
+    expect(chaiHttpResponse.status).to.be.equal(200)
   });
 });
