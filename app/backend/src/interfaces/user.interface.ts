@@ -4,7 +4,7 @@ export interface ILoginUser {
 }
 
 export interface IUsersService {
-  findUser(email: string, password: string): Promise<ILoginUser | null>
+  findUser(email: string, password: string): Promise<IUserTable | null>
 }
 
 export interface IUserTable {

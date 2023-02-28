@@ -1,12 +1,12 @@
 import { ModelStatic } from 'sequelize';
 import User from '../database/models/user.model';
-import { ILoginUser, IUsersService } from '../interfaces/user.interface';
+import { IUserTable, IUsersService } from '../interfaces/user.interface';
 
 export default class UserService implements IUsersService {
-  protected model: ModelStatic<User> = User;
+  protected _model: ModelStatic<User> = User;
 
-  findUser = (email: string, password: string): Promise<ILoginUser | null> => {
-    const user = this.model.findOne({
+  findUser = async (email: string, password: string): Promise<IUserTable | null> => {
+    const user = await this._model.findOne({
       where: {
         email,
         password,
