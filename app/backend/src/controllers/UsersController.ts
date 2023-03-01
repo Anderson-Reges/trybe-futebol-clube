@@ -33,4 +33,11 @@ export default class UsersController {
 
     return res.status(200).json({ token });
   };
+
+  LoginRole = async (req: Request, res: Response) => {
+    const { role: { role } } = req.body;
+    return !role
+      ? res.status(500).json({ message: 'internal error' })
+      : res.status(200).json({ role });
+  };
 }
