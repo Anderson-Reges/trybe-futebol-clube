@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('check a route "/teams"', () => {
+describe('checking the route "/teams"', () => {
   
   it('test if list all teams', async () => {
     const response = await chai
