@@ -1,4 +1,5 @@
 import jwt = require('jsonwebtoken');
+import bcrypt = require('bcryptjs');
 import { Request, Response } from 'express';
 import { IUsersService } from '../interfaces/user.interface';
 
@@ -13,8 +14,12 @@ export default class UsersController {
 
   Login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+
     const user = await this._service.findUser(email, password);
-    if (!user) return res.status(404).json({ message: 'unregistered user' });
+    if (!user) return res.status(401).json({ message: 'Invalid email or password' });
+    const result = bcrypt.compareSync(password, user.password);
+    if (!result) return res.status(401).json({ message: 'Invalid email or password' });
+
     const payload = {
       id: user.id,
       username: user.username,

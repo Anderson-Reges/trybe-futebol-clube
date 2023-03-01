@@ -1,4 +1,5 @@
 import * as express from 'express';
+import 'express-async-errors';
 import teamsRoutes from './routes/TeamsRoutes';
 import usersRoutes from './routes/UsersRoutes';
 
