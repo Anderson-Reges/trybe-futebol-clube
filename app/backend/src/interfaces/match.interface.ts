@@ -1,14 +1,18 @@
-export interface IMatch {
+export interface IMatch extends IGoals{
   id?: number,
   homeTeamId: number,
-  homeTeamGoals: number
   awayTeamId: number,
-  awayTeamGoals: number,
   inProgress: boolean,
+}
+
+export interface IGoals {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
 }
 
 export interface IMatchService {
   findAll(): Promise<IMatch[]>,
   findMatchesInProgress(boolean: boolean): Promise<IMatch[]>
   finisInProgressMatch(id: number): Promise<number>
+  updateMatch(id: number, teamsGoals: IGoals): Promise<number>
 }
