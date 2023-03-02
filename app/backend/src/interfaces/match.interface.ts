@@ -10,4 +10,5 @@ export interface IMatch {
 export interface IMatchService {
   findAll(): Promise<IMatch[]>,
   findMatchesInProgress(boolean: boolean): Promise<IMatch[]>
+  finisInProgressMatch(id: number): Promise<number>
 }

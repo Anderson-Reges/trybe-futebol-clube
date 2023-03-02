@@ -28,4 +28,14 @@ export default class MatchService implements IMatchService {
 
     return matches;
   }
+
+  async finisInProgressMatch(id: number): Promise<number> {
+    const [affectedRows] = await this._model.update({
+      inProgress: false,
+    }, {
+      where: { id },
+    });
+
+    return affectedRows;
+  }
 }

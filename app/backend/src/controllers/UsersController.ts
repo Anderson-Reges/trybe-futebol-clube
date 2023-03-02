@@ -1,8 +1,10 @@
 import jwt = require('jsonwebtoken');
 import bcrypt = require('bcryptjs');
+import * as dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import { IUsersService } from '../interfaces/user.interface';
 
+dotenv.config();
 const secret = process.env.JWT_SECRET as string;
 
 export default class UsersController {
