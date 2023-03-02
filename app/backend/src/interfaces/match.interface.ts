@@ -8,5 +8,6 @@ export interface IMatch {
 }
 
 export interface IMatchService {
-  findAll(): Promise<IMatch[]>
+  findAll(): Promise<IMatch[]>,
+  findMatchesInProgress(boolean: boolean): Promise<IMatch[]>
 }
