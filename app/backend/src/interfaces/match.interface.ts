@@ -15,4 +15,5 @@ export interface IMatchService {
   findMatchesInProgress(boolean: boolean): Promise<IMatch[]>
   finisInProgressMatch(id: number): Promise<number>
   updateMatch(id: number, teamsGoals: IGoals): Promise<number>
+  createMatch(match: IMatch): Promise<IMatch>
 }

@@ -9,6 +9,7 @@ const matchesController = new MatchController(matchesService);
 
 matchesRoutes
   .get('/', matchesController.findAll)
+  .post('/', authorizationToken, matchesController.createMatch)
   .patch('/:id', authorizationToken, matchesController.updateMatch)
   .patch('/:id/finish', authorizationToken, matchesController.finisInProgressMatch);
 
