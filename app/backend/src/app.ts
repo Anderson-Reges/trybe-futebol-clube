@@ -1,5 +1,6 @@
 import * as express from 'express';
 import 'express-async-errors';
+import leaderboardRoutes from './routes/LeaderboardRoutes';
 import matchesRoutes from './routes/MatchesRoutes';
 import teamsRoutes from './routes/TeamsRoutes';
 import usersRoutes from './routes/UsersRoutes';
@@ -33,7 +34,8 @@ class App {
     this.app
       .use('/teams', teamsRoutes)
       .use('/login', usersRoutes)
-      .use('/matches', matchesRoutes);
+      .use('/matches', matchesRoutes)
+      .use('/leaderboard', leaderboardRoutes);
   }
 
   public start(PORT: string | number):void {
