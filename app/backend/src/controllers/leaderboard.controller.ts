@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { ILeaderboard, ILeaderboardPoints } from '../interfaces/leaderboard.interface';
+import { ILeaderboardPoints } from '../interfaces/leaderboard.interface';
 import { IMatch } from '../interfaces/match.interface';
 import { ITeam } from '../interfaces/team.interface';
 import TeamService from '../services/TeamsService';
@@ -87,9 +87,9 @@ class Leaderboard {
     return goalsOwn;
   }
 
-  public static sortResults = (result: ILeaderboard[]) => {
+  // public static sortResults = (result: ILeaderboard[]) => {
 
-  };
+  // };
 
   public static constructResult = (points: ILeaderboardPoints) => {
     const efficiency = ((points.p.totalPoints + points.e / (points.j * 3)) * 100).toFixed(2);
@@ -134,8 +134,8 @@ class Leaderboard {
     });
 
     const resultPoint = Leaderboard.leaderboardPoint(allTeams, matchesVictories);
-    const sortResult = Leaderboard.sortResults(resultPoint);
-    console.log(sortResult);
+    // const sortResult = Leaderboard.sortResults(resultPoint);
+    // console.log(sortResult);
     return res.status(200).json(resultPoint);
   };
 }
