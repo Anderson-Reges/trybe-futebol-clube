@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { ILeaderboardResult } from '../interfaces/leaderboard.interface';
+import { ILeaderboard, ILeaderboardPoints } from '../interfaces/leaderboard.interface';
 import { IMatch } from '../interfaces/match.interface';
 import { ITeam } from '../interfaces/team.interface';
 import TeamService from '../services/TeamsService';
@@ -74,9 +74,9 @@ class Leaderboard {
     return goalsFavor;
   };
 
-  public static goalsOwn(id: number, matches: IMatch[]): number {
+  public static goalsOwn(id: number, matchesVictories: IMatch[]): number {
     let goalsOwn = 0;
-    matches.forEach(({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
+    matchesVictories.forEach(({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals }) => {
       if (homeTeamId === id) {
         goalsOwn += awayTeamGoals;
       }
@@ -87,16 +87,25 @@ class Leaderboard {
     return goalsOwn;
   }
 
-  public static constructResult = (points: ILeaderboardResult) => ({
-    name: points.teamName,
-    totalPoints: points.p.totalPoints + points.e,
-    totalGames: points.j,
-    totalVictories: points.p.totalVictories,
-    totalDraws: points.e,
-    totalLosses: points.d,
-    goalsFavor: points.gp,
-    goalsOwn: points.gc,
-  });
+  public static sortResults = (result: ILeaderboard[]) => {
+
+  };
+
+  public static constructResult = (points: ILeaderboardPoints) => {
+    const efficiency = ((points.p.totalPoints + points.e / (points.j * 3)) * 100).toFixed(2);
+
+    return {
+      name: points.teamName,
+      totalPoints: points.p.totalPoints + points.e,
+      totalGames: points.j,
+      totalVictories: points.p.totalVictories,
+      totalDraws: points.e,
+      totalLosses: points.d,
+      goalsFavor: points.gp,
+      goalsOwn: points.gc,
+      goalsBalance: points.gp - points.gc,
+      efficiency };
+  };
 
   public static leaderboardPoint = (teams: ITeam[], matchVictories: IMatch[]) => {
     const leaderboard = teams.map(({ id, teamName }) => {
@@ -113,7 +122,7 @@ class Leaderboard {
 
   leaderboardHome = async (_req: Request, res: Response) => {
     const allTeams = await teamService.findAll();
-    const allMatchers = await matchService.findMatchesInProgress(false);
+    const allMatchers = await matchService.findAll();
     const matchesVictories = allMatchers.map((match) => {
       if (match.homeTeamGoals > match.awayTeamGoals) {
         return { ...match, teamVictoryId: match.homeTeamId };
@@ -125,6 +134,8 @@ class Leaderboard {
     });
 
     const resultPoint = Leaderboard.leaderboardPoint(allTeams, matchesVictories);
+    const sortResult = Leaderboard.sortResults(resultPoint);
+    console.log(sortResult);
     return res.status(200).json(resultPoint);
   };
 }
