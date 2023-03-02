@@ -1,5 +1,5 @@
 export interface IMatch extends IGoals{
-  id?: number,
+  id: number,
   homeTeamId: number,
   awayTeamId: number,
   inProgress: boolean,

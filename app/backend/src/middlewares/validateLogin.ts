@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-// import bcrypt = require('bcryptjs');
 
 const validateLogin = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
