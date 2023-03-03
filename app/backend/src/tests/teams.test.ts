@@ -2,6 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
+import { Response } from 'superagent';
 
 import { app } from '../app';
 import { teamsList } from './mocks/teams.mock';
@@ -34,6 +35,16 @@ describe('checking the route "/teams"', () => {
     expect(response.status).to.be.equal(200)
     expect(response.body).to.be.deep.equal(teamsList[0])
   })
+
+  it('test if is return a error to the search for a id noexistente', async () => {
+    let response: Response;
+
+    sinon.stub(Team, 'findByPk').resolves(null);
+    response = await chai.request(app).get('/teams/100');
+
+    expect(response.status).to.be.equal(404);
+    expect(response.body).to.be.deep.equal({ message: 'Team not found' });
+  });
 
   afterEach(()=>{
     sinon.restore();
