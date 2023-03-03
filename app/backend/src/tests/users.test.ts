@@ -1,4 +1,3 @@
-import { tokenTest } from './mocks/users.mock';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
