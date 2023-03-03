@@ -12,8 +12,6 @@ export default class MatchService implements IMatchService {
         { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
         { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } },
       ],
-      raw: true,
-      nest: true,
     });
 
     return matches;
@@ -26,6 +24,8 @@ export default class MatchService implements IMatchService {
         { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
         { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } },
       ],
+      raw: true,
+      nest: true,
     });
 
     return matches;
